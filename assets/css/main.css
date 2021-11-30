@@ -2738,4 +2738,6 @@ h2.title {
   color: #FE980F;
 }
 
-
+.error{
+    color: red;
+}

@@ -12,10 +12,19 @@
 {#                            <input type="text" placeholder="نام کاربری"/>#}
 {#                            <input type="email" placeholder="آدرس ایمیـل"/>#}
                             {% csrf_token %}
-                            {{ login_form }}
+                            {% for error in login_form.username.errors %}
+{#                            {{ login_form.username.errors }}#}
+                                <p style="color:red;"> {{ error }} </p>
+                            {% endfor %}
+                            {{ login_form.username.label }}:
+                            {{ login_form.username }}
+                            {{ login_form.password.label }}:
+                            {{ login_form.password }}
                             <span>
-								<input type="checkbox" class="checkbox">
-								مرا بخاطـر بسپـار
+{#								<input type="checkbox" class="checkbox">#}
+{#								#}
+                                {{ login_form.remember_me }}
+                                مرا بخاطـر بسپـار
 							</span>
                             <span>
 								<a href="forget-password.html">رمـز عبـور خود را فراموش کرده ام</a>
