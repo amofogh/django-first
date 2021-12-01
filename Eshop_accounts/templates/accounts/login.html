@@ -9,23 +9,31 @@
                     <div class="login-form"><!--login form-->
                         <h2>ورود به حساب کاربـری :</h2>
                         <form method="post">
-{#                            <input type="text" placeholder="نام کاربری"/>#}
-{#                            <input type="email" placeholder="آدرس ایمیـل"/>#}
+                            {#                            <input type="text" placeholder="نام کاربری"/>#}
+                            {#                            <input type="email" placeholder="آدرس ایمیـل"/>#}
                             {% csrf_token %}
                             {% for error in login_form.username.errors %}
-{#                            {{ login_form.username.errors }}#}
+                                {#                            {{ login_form.username.errors }}#}
                                 <p style="color:red;"> {{ error }} </p>
                             {% endfor %}
                             {{ login_form.username.label }}:
                             {{ login_form.username }}
                             {{ login_form.password.label }}:
                             {{ login_form.password }}
-                            <span>
-{#								<input type="checkbox" class="checkbox">#}
-{#								#}
-                                {{ login_form.remember_me }}
-                                مرا بخاطـر بسپـار
-							</span>
+                            <div style="display: flex;justify-content: space-between;">
+                                <span>
+{#							    	<input type="checkbox" class="checkbox">#}
+{#							    	#}
+                                    {{ login_form.remember_me }}
+                                    مرا بخاطـر بسپـار
+							    </span>
+                                <span>
+{#							    	<input type="checkbox" class="checkbox">#}
+{#							    	#}
+                                    {{ login_form.show_password }}
+                                    نمایش رمز عبور
+							    </span>
+                            </div>
                             <span>
 								<a href="forget-password.html">رمـز عبـور خود را فراموش کرده ام</a>
 							</span>
@@ -37,5 +45,15 @@
             </div>
         </section>
     </div>
+
+    <script type="text/javascript">
+        function reveal() {
+            if (document.getElementById('id_show_password').checked) {
+                document.getElementById("id_password").type = 'text';
+            } else {
+                document.getElementById("id_password").type = 'password';
+            }
+        }
+    </script>
 
 {% endblock %}

@@ -46,6 +46,7 @@ def register_user(request):
                                  password=password,
                                  first_name=first_name,
                                  last_name=last_name)
+
         return redirect('/')
 
     context = {
