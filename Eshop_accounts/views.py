@@ -47,6 +47,11 @@ def register_user(request):
                                  first_name=first_name,
                                  last_name=last_name)
 
+        user = authenticate(request, password=password, username=username)
+        login(request, user)
+
+        request.session.set_expiry(0)  # after session closed user logout of the account
+
         return redirect('/')
 
     context = {

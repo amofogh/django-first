@@ -66,8 +66,6 @@ class Register_Form(forms.Form):
 
         username = self.cleaned_data.get('username')
         exists = User.objects.filter(username=username).exists()
-        print(username)
-        print(exists)
 
         if exists:
             raise forms.ValidationError('نام کاربری که وارد کردید وجود دارد.')
