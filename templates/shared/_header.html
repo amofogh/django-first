@@ -72,7 +72,9 @@
 
                 <div class="col-sm-3">
                     <div class="search_box pull-left">
-                        <input type="text" placeholder="جستـجو"/>
+                        <form action="/products/search" method="get">
+                            <input type="text" placeholder="جستـجو" value="{{ request.GET.q }}" name='q'/>
+                        </form>
                     </div>
                 </div>
 
