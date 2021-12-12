@@ -27,6 +27,7 @@ urlpatterns = [
     path('', home_page),
     path('', include('Eshop_accounts.urls', namespace='accounts')),
     path('', include('Eshop_products.urls', namespace='products')),
+    path('', include('Eshop_tag.urls', namespace='tag')),
 ]
 
 if settings.DEBUG:
