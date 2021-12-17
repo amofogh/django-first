@@ -2,6 +2,7 @@ from django.db import models
 from os import path
 from django.db.models import Q
 from Eshop_tag.models import Tag
+from Eshop_category.models import Category
 
 
 def get_filename(filepath):
@@ -48,6 +49,7 @@ class products(models.Model):
     brand = models.CharField(max_length=40, blank=True, null=True, verbose_name='برند')
     date = models.DateTimeField(verbose_name='تاریخ', auto_now_add=True)
     tag = models.ManyToManyField(Tag, blank=True)
+    category = models.ManyToManyField(Category, blank=True)
 
     objects = Products_manager()
 

@@ -1,0 +1,7 @@
+{% for category in categories %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="{{ category.get_absolute_url }}">{{ category.title|lower }}</a></h3>
+        </div>
+    </div>
+{% endfor %}

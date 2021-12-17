@@ -14,6 +14,11 @@ class Products_list(ListView):
     def get_queryset(self):
         return products.objects.get_active_products()
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(Products_list, self).get_context_data(*args, **kwargs)
+        print(context)
+        return context
+
 
 def product_detail(request, productId):
     product = products.objects.get_active_product(productId)
@@ -78,3 +83,5 @@ class Search_item(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(Search_item, self).get_context_data(*args, **kwargs)
         return context
+
+

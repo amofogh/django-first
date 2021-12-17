@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from p.views import home_page, header
-
+from Eshop_category.views import categories_partial
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('header/<title>', header, name='headerReferences'),
@@ -28,6 +28,9 @@ urlpatterns = [
     path('', include('Eshop_accounts.urls', namespace='accounts')),
     path('', include('Eshop_products.urls', namespace='products')),
     path('', include('Eshop_tag.urls', namespace='tag')),
+    path('', include('Eshop_category.urls', namespace='category')),
+    path('categories_partial', categories_partial, name='categories_partial'),
+
 ]
 
 if settings.DEBUG:
