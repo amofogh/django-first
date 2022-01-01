@@ -1,11 +1,19 @@
+import itertools
+
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import products
+
+from Eshop_orders.forms import order_form
+from .models import products, products_gallery
 from django.http import Http404
 from .utils import jalali_convertor
 
 
 # Create your views here.
+def grouper(n, iterable):
+    args = [iter(iterable)] * n
+    return ([e for e in t if e] for t in itertools.zip_longest(*args))
+
 
 class Products_list(ListView):
     template_name = 'products/products.html'
@@ -16,29 +24,31 @@ class Products_list(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(Products_list, self).get_context_data(*args, **kwargs)
-        print(context)
         return context
 
 
 def product_detail(request, productId):
     product = products.objects.get_active_product(productId)
+    orderForm = order_form(request.POST or None, initial={'product_id': productId})
+
     if product is None:
         raise Http404
+
+    # galleries
+    galleries = products_gallery.objects.filter(product_id=productId)
+    galleries = list(grouper(3, galleries))
 
     # convert to persian calendar
     jalali = jalali_convertor(product)
 
-    # slide show | show last 6 actives products
-    last_products = products.objects.get_active_products()[:6]
-
-    t = product.tag.all()
-    print(t)
+    related_products = products.objects.get_related_products(product)
 
     context = {
         'products': product,
         'date': jalali,
-        'first_products': last_products[0:3],
-        'second_products': last_products[3:6],
+        'suggest_products': list(grouper(3, related_products)),
+        'galleries': galleries,
+        'order_form': orderForm,
     }
     return render(request, "products/product_detail.html", context)
 
@@ -83,5 +93,3 @@ class Search_item(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(Search_item, self).get_context_data(*args, **kwargs)
         return context
-
-

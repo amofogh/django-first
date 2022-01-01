@@ -5,6 +5,8 @@ from Eshop_tag.models import Tag
 from Eshop_category.models import Category
 
 
+# Create your models here.
+
 def get_filename(filepath):
     basename = path.basename(filepath)
     name, ext = path.splitext(basename)
@@ -18,7 +20,13 @@ def upload_image_path(instance, filename):
     return f'products/{new_name}'
 
 
-# Create your models here.
+def upload_gallery_image_path(instance, filename):
+    name, ext = get_filename(filename)
+
+    new_name = f'{instance.title}{ext}'
+    return f'products/gallery/{instance.title}/{new_name}'
+
+
 class Products_manager(models.Manager):
 
     def get_active_products(self):
@@ -37,6 +45,13 @@ class Products_manager(models.Manager):
 
         return self.get_queryset().filter(lookup, active=True).distinct()
 
+    def get_related_products(self, product):
+        lookup = (
+                Q(tag__products=product) |
+                Q(category__products=product)
+        )
+        return self.get_queryset().filter(lookup, active=True).distinct()
+
 
 class products(models.Model):
     id = models.AutoField(primary_key=True)
@@ -46,7 +61,6 @@ class products(models.Model):
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
     active = models.BooleanField(default=False, verbose_name='فعال/غیرفعال')
     available = models.BooleanField(default=False, verbose_name='موجودیت')
-    brand = models.CharField(max_length=40, blank=True, null=True, verbose_name='برند')
     date = models.DateTimeField(verbose_name='تاریخ', auto_now_add=True)
     tag = models.ManyToManyField(Tag, blank=True)
     category = models.ManyToManyField(Category, blank=True)
@@ -62,3 +76,16 @@ class products(models.Model):
 
     def get_absolute_url(self):
         return f'/products/{self.id}'
+
+
+class products_gallery(models.Model):
+    title = models.CharField(max_length=150, verbose_name='عنوان')
+    image = models.ImageField(upload_to=upload_gallery_image_path, verbose_name='تصویر محصول')
+    product = models.ForeignKey(products, on_delete=models.CASCADE, verbose_name='محصول')
+
+    class Meta:
+        verbose_name = 'تصویر'
+        verbose_name_plural = 'گالری تصاویر'
+
+    def __str__(self):
+        return self.title

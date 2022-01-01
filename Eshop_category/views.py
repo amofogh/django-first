@@ -23,13 +23,11 @@ class CategoryView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(CategoryView, self).get_context_data(*args, **kwargs)
-        print(context)
         return context
 
 
 def categories_partial(request, *args, **kwargs):
     qs = Category.objects.filter(active=True)
-    print(qs)
     context = {
         'categories': qs
     }

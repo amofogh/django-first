@@ -1,5 +1,6 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load static %}
+{% load render_partial %}
 
 {% block content %}
     <section>
@@ -17,30 +18,16 @@
 
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner">
-                                    <div class="item active">
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar1.jpg" %}></a>
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar2.jpg" %}></a>
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar3.jpg" %}></a>
-                                    </div>
-                                    <div class="item">
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar1.jpg" %}></a>
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar2.jpg" %}></a>
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar3.jpg" %}></a>
-                                    </div>
-                                    <div class="item">
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar1.jpg" %}></a>
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar2.jpg" %}></a>
-                                        <a href=""><img
-                                                alt="" src={% static "images/product-details/similar3.jpg" %}></a>
-                                    </div>
+                                    {% for gallery_list in galleries %}
+                                        <div class="item {{ forloop.first|yesno:'active,' }}">
+                                            {% for gallery in gallery_list %}
+                                                <a href=""><img
+                                                        alt="{{ gallery.title }}" src="{{ gallery.image.url }}"
+                                                        style="width: 85px;height: 70px"></a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+
 
                                 </div>
 
@@ -63,23 +50,27 @@
                                 </div>
                                 <div>
 									<span>
-										<span>قیمت : {{ products.price }} ريال</span>
+										<span>قیمت : {{ products.price }} تومان</span>
 									</span>
                                     <span>
-										<label>تعداد :</label>
-										<input type="text" value="3" class="search_box"/>
-										<button type="button" class="btn btn-fefault cart">
+                                        <form method="POST" action="{% url 'orders:add_user_order' %}">
+                                            {% csrf_token %}
+                                            {{ order_form.product_id }}
+										    <label>تعداد :</label>
+                                            {{ order_form.count }}
+										    <button type="submit" class="btn btn-fefault cart">
 											<i class="fa fa-shopping-cart"></i>
 											افـزودن به سبـد خریـد
-										</button>
+										    </button>
+                                        </form>
 									</span>
                                 </div>
                                 <div>
                                     <p><b>موجـودی :</b>
-                                        {% if product.available == True %}
-                                            در انبـار موجود می باشد
+                                        {% if products.available %}
+                                            در انبـار موجود می باشد.
                                         {% else %}
-                                            در انبـار موجود نمی باشد
+                                            در انبـار موجود نمی باشد.
                                         {% endif %}
 
                                     </p>
@@ -90,7 +81,11 @@
                                             {% endif %}
                                         {% endfor %}
                                     </p>
-                                    <p><b>برنـد :</b> {{ products.brand }} </p>
+                                    <p><b>دسته بندی ها :</b>
+                                        {% for category in products.category.all %}
+                                            <a href="{{ category.get_absolute_url }}">{{ category }}</a>
+                                        {% endfor %}
+                                    </p>
                                 </div>
                                 <span class="socials-share share">
 									<ul>
@@ -341,18 +336,15 @@
 
                         <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="item active">
-                                    {% for product in first_products %}
-                                        {% include 'products/product_item_component.html' with product=product %}
-                                    {% endfor %}
-
-                                </div>
-                                <div class="item">
-                                    {% for product in second_products %}
+                                ب                                {% for products_list in suggest_products %}
+                                <div class="item {{ forloop.first|yesno:'active,' }}">
+                                    {% for product in products_list %}
                                         {% include 'products/product_item_component.html' with product=product %}
                                     {% endfor %}
                                 </div>
+                            {% endfor %}
                             </div>
+
                             <a class="left recommended-item-control" href="#recommended-item-carousel"
                                data-slide="prev">
                                 <i class="fa fa-angle-left"></i>
@@ -365,97 +357,10 @@
                     </div><!--/recommended_items-->
 
                 </div>
-
                 <div class="col-sm-3">
-                    <div class="left-sidebar">
-                        <h2>دسته بندی محصولات</h2>
-                        <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                            دسته 1
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="sportswear" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <ul>
-                                            <li><a href="">محصول 1 </a></li>
-                                            <li><a href="">محصول 2 </a></li>
-                                            <li><a href="">محصول 3 </a></li>
-                                            <li><a href="">محصول 4</a></li>
-                                            <li><a href="">محصول 5</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                            دسته 2
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="mens" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <ul>
-                                            <li><a href="">محصول 1 </a></li>
-                                            <li><a href="">محصول 2 </a></li>
-                                            <li><a href="">محصول 3 </a></li>
-                                            <li><a href="">محصول 4</a></li>
-                                            <li><a href="">محصول 5</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 1</a></h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 2</a></h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 3</a></h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 4</a></h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 5</a></h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 6</a></h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="#">محصول 7</a></h4>
-                                </div>
-                            </div>
-                        </div><!--/category-productsr-->
-
-                        <div class="shipping text-center"><!--shipping-->
-                            <img src={% static "images/home/shipping.jpg" %} alt=""/>
-                        </div><!--/shipping-->
-
-                    </div>
+                    {% render_partial 'categories_partial' %}
                 </div>
+
 
             </div>
         </div>

@@ -2737,3 +2737,13 @@ h2.title {
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
 }
+
+.error{
+    color: red;
+}
+
+.box{
+    width: 300px;
+    height: 100px;
+    background-color: #2a6496;
+}

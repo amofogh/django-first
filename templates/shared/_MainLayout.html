@@ -6,10 +6,11 @@
 
 {% render_partial 'headerReferences' title='صفحه اصلی | فروشگاه کارزیبا' %}
 <body>
-{% include 'shared/_header.html' %}
+{% render_partial 'header' %}
 
 {% block content %} {% endblock %}
-{% include 'shared/_footer.html' %}
+
+{% render_partial 'footer' %}
 
 {% include 'shared/_footerReferences.html' %}
 </body>

@@ -19,17 +19,22 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from p.views import home_page, header
+from p.views import home_page, header, footer, header_references
 from Eshop_category.views import categories_partial
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('header/<title>', header, name='headerReferences'),
-    path('', home_page),
     path('', include('Eshop_accounts.urls', namespace='accounts')),
     path('', include('Eshop_products.urls', namespace='products')),
     path('', include('Eshop_tag.urls', namespace='tag')),
     path('', include('Eshop_category.urls', namespace='category')),
+    path('', include('Eshop_contact.urls', namespace='contact')),
+    path('', include('Eshop_orders.urls', namespace='orders')),
     path('categories_partial', categories_partial, name='categories_partial'),
+    path('header/<title>', header_references, name='headerReferences'),
+    path('header', header, name='header'),
+    path('footer', footer, name='footer'),
+    path('', home_page),
+    path('admin/', admin.site.urls),
 
 ]
 
