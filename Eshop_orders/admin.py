@@ -19,9 +19,10 @@ class order_detail_admin(admin.ModelAdmin):
 
 
 class order_admin(admin.ModelAdmin):
-    list_display = ['owner', 'payment_date', 'is_paid']
-    readonly_fields = ['__str__', 'owner', 'is_paid', 'payment_date']
+    list_display = ['owner', 'ref_id', 'payment_date', 'is_paid']
+    readonly_fields = ['__str__', 'ref_id', 'owner', 'is_paid', 'payment_date']
     list_filter = ['is_paid']
+    search_fields = ['ref_id']
 
     class Meta:
         model = order
