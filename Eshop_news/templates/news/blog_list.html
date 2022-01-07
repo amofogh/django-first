@@ -1,0 +1,50 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block title %}
+    وبلاگ
+{% endblock %}
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-9">
+                    <div class="blog-post-area">
+                        <h2 class="title text-center">آخریـن اخبـار</h2>
+                        {% for news in page_obj %}
+                            <div class="single-blog-post">
+                                <h3>{{ news.title }}</h3>
+                                <div class="post-meta">
+                                    <ul>
+                                        <li><i class="fa fa-user"></i> کاربـر {{ news.user }}</li>
+                                        <li><i class="fa fa-clock-o"></i> {{ news.date.astimezone.time }}</li>
+                                        <li>
+                                            <i class="fa fa-calendar"></i>{{ news.convert_jalali_date.year }}/{{ news.convert_jalali_date.month }}/{{ news.convert_jalali_date.day }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="{{ news.get_absolute_url }}">
+                                    <img src="{{ news.image.url }}" alt="{{ news.title }}"
+                                         class="img-responsive img_fluid" style="width:400px">
+                                </a>
+                                <p>{{ news.description|slice:":255" }}</p>
+                                <a class="btn btn-primary" href="{{ news.get_absolute_url }}">ادامـه مطلب</a>
+                            </div>
+
+                        {% endfor %}
+                        <div class="pagination-area">
+                            {% include 'shared/_pagination.html' %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    {% render_partial 'categories_partial' %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

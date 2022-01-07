@@ -1,3 +1,5 @@
+import itertools
+
 import jdatetime
 
 
@@ -14,3 +16,8 @@ def jalali_convertor(model):
     jalali = {'year': jalali.jyear, 'month': months[jalali.jmonth - 1], 'day': jalali.jday}
 
     return jalali
+
+
+def grouper(n, iterable):
+    args = [iter(iterable)] * n
+    return ([e for e in t if e] for t in itertools.zip_longest(*args))

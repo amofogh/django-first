@@ -11,6 +11,10 @@ class Category(models.Model):
     slug = models.SlugField(max_length=150, verbose_name='عنوان در url')
     active = models.BooleanField(default=False, verbose_name='فعال/غیرفعال')
 
+    def get_last_products(self):
+        return self.products_set.order_by('-visit_count').filter(active=True).all()[:4]
+
+
     class Meta:
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'

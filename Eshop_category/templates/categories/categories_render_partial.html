@@ -1,14 +1,14 @@
-{% for category in categories %}
-    <div class="left-sidebar">
-        <h2>دسته بندی محصولات</h2>
+<div class="left-sidebar">
+    <h2>دسته بندی محصولات</h2>
         <div class="panel-group category-products" id="accordian"><!--category-products-->
+    {% for category in categories %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><a href="{{ category.get_absolute_url }}">{{ category.title|lower }}</a>
                     </h3>
                 </div>
             </div>
+    {% endfor %}
         </div><!--/category-products-->
 
-    </div>
-{% endfor %}
+</div>

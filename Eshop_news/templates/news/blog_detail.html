@@ -1,0 +1,51 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block title %}
+    {{ news.title }}
+{% endblock %}
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-9">
+                    <div class="blog-post-area">
+                        <h2 class="title text-center">خبـر شمـاره {{ news.id }}</h2>
+                        <div class="single-blog-post">
+                            <h3>{{ news.title }}</h3>
+                            <div class="post-meta">
+                                <ul>
+                                    <li><i class="fa fa-user"></i> {{ news.user }}</li>
+                                    <li><i class="fa fa-clock-o"></i>{{ news.date.astimezone.time }}</li>
+                                    <li>
+                                        <i class="fa fa-calendar"></i> {{ news.convert_jalali_date.year }}/{{ news.convert_jalali_date.month }}/{{ news.convert_jalali_date.day }}
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <a href="">
+                                <img src="{{ news.image.url }}" alt="{{ news.title }}" class="img-fluid"
+                                     style="width:300px;">
+                            </a>
+                            <p> {{ news.description }} </p>
+                            <div class="pager-area">
+                                <ul class="pager pull-left">
+                                    <li><a href="#">قبلی</a></li>
+                                    <li><a href="#">بعـدی</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--/blog-post-area-->
+
+                </div>
+
+                <div class="col-sm-3">
+                    {% render_partial 'categories_partial' %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

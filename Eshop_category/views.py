@@ -16,7 +16,7 @@ class CategoryView(ListView):
         # qs = Category.objects.filter(slug=slug, active=True)
         qs = get_object_or_404(Category, slug=slug, active=True)
         # product = products.objects.filter(category=qs.id)
-        product = products.objects.filter(category__slug=qs.slug)
+        product = products.objects.filter(category__slug=qs.slug, active=True)
         if product is None:
             raise Http404
         return product
@@ -27,7 +27,7 @@ class CategoryView(ListView):
 
 
 def categories_partial(request, *args, **kwargs):
-    qs = Category.objects.filter(active=True)
+    qs = Category.objects.filter(active=True).all()
     context = {
         'categories': qs
     }

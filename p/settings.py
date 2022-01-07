@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_render_partial',
+    'django_social_share',
 
     # our apps
     'Eshop_accounts',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'Eshop_contact',
     'Eshop_setting',
     'Eshop_orders',
+    'Eshop_comments',
+    'Eshop_news',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },

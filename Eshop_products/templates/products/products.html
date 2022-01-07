@@ -1,7 +1,9 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load static %}
 {% load render_partial %}
-
+{% block title %}
+    محصولات
+{% endblock %}
 {% block content %}
 
     <section>
@@ -15,34 +17,7 @@
 
                             {% include 'products/product_item_component.html' with product=product %}
                         {% endfor %}
-                        <ul class="pagination">
-
-                            {% if page_obj.has_previous %}
-                                <li><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
-                            {% endif %}
-
-                            {% if page_obj.number|add:'-4' > 1 %}
-                                <li><a href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
-                            {% endif %}
-
-                            {% for i in page_obj.paginator.page_range %}
-
-                                {% if page_obj.number == i %}
-                                    <li class="active"><span>{{ i }} </span></li>
-                                    {#  how much numbers show #}
-                                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
-                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
-                                <li><a href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
-                            {% endif %}
-
-                            {% if page_obj.has_next %}
-                                <li><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
-                            {% endif %}
-                        </ul>
+                        {% include 'shared/_pagination.html'  %}
 
                     </div><!--features_items-->
                 </div>

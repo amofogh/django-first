@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from Eshop_orders.models import order_detail, order
+from Eshop_orders.models import order_detail, order, discount
 
 
 class order_detail_admin(admin.ModelAdmin):
@@ -34,5 +34,12 @@ class order_admin(admin.ModelAdmin):
         return actions
 
 
+class discount_admin(admin.ModelAdmin):
+    list_display = ['__str__', 'expire_date']
+    list_filter = ['expire_date']
+    search_fields = ['expire_date', 'worth', 'code']
+
+
 admin.site.register(order, order_admin)
 admin.site.register(order_detail, order_detail_admin)
+admin.site.register(discount, discount_admin)

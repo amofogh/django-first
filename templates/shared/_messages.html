@@ -2,7 +2,7 @@
 <style>
     .box {
         width: 50rem;
-        background-color:    #f0f3f4    ;
+        background-color: #f0f3f4;
         text-align: center;
         padding: 40px;
         margin: 0 50%;
@@ -13,12 +13,17 @@
         {% for message in messages %}
             <li
                     {% if message.tags == 'success' %}class="text-success box"
+                    {% elif message.tags == 'order success' %}class="text-success box"
                     {% elif message.tags == 'warning' %}class="text-danger box"
                     {% elif message.tags %} class="{{ message.tags }} box"
                     {% endif %}>
 
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                {{ message }}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                    {{ message }}
+                    <br>
+                    {% if 'order' in message.extra_tags %}
+                    <a href="{% url 'orders:cart' %}" > مشاهده سبد خرید </a>
+                    {% endif %}
             </li>
         {% endfor %}
     </ul>

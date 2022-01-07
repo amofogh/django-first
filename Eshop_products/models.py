@@ -64,6 +64,7 @@ class products(models.Model):
     date = models.DateTimeField(verbose_name='تاریخ', auto_now_add=True)
     tag = models.ManyToManyField(Tag, blank=True)
     category = models.ManyToManyField(Category, blank=True)
+    visit_count = models.IntegerField(default=0, verbose_name='تعداد بازدید')
 
     objects = Products_manager()
 
