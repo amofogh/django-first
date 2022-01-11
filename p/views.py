@@ -6,7 +6,6 @@ from Eshop_products.utils import grouper
 from Eshop_slider.models import slider
 from Eshop_setting.models import site_setting
 
-
 def header(request):
     setting = site_setting.objects.first()
     context = {
@@ -45,3 +44,4 @@ def footer(request):
         'setting': setting
     }
     return render(request, 'shared/_footer.html', context)
+

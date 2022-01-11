@@ -6,7 +6,11 @@
             <div class="productinfo text-center">
                 <img class='img-fluid ' alt="{{ product.title }}"
                      src={{ product.image.url }}/>
-                <h2>{{ product.price }} تومان</h2>
+                {% if product.price%}
+                    <h2>{{ product.price }} تومان</h2>
+                    {% else %}
+                    <h2>رایگان</h2>
+                {% endif %}
                 <p>{{ product.title }}</p>
                 <a href="{{ product.get_absolute_url }}" class="btn btn-default add-to-cart"><i
                         class="fa fa-shopping-cart"></i>مشاهده جزئیات</a>

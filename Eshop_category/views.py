@@ -29,6 +29,6 @@ class CategoryView(ListView):
 def categories_partial(request, *args, **kwargs):
     qs = Category.objects.filter(active=True).all()
     context = {
-        'categories': qs
+        'categories': qs,
     }
     return render(request, 'categories/categories_render_partial.html', context)

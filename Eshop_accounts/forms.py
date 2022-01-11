@@ -78,3 +78,12 @@ class Register_Form(forms.Form):
             raise forms.ValidationError('کلمه های عبور مغایرت دارد.')
 
         return password
+
+
+class edit_form(forms.Form):
+    first_name = forms.CharField(label='نام',
+                                 widget=forms.TextInput(attrs={'placeholder': 'نام', 'class': 'form-control'})
+                                 )
+    last_name = forms.CharField(label='نام خوانوادگی',
+                                widget=forms.TextInput(attrs={'placeholder': 'نام خوانوادگی', 'class': 'form-control'})
+                                )

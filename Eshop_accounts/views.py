@@ -1,7 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404
 from django.contrib.auth import login, authenticate, logout
+
+from utilities.EmailServices import send_email
+from .forms import Login_Form, Register_Form, edit_form
 from django.contrib.auth.models import User
-from .forms import Login_Form, Register_Form
+from django.contrib.auth.decorators import login_required
+from Eshop_setting.models import site_setting
 
 
 # Create your views here.
@@ -34,6 +38,7 @@ def register_user(request):
         return redirect('/')
 
     register_form = Register_Form(request.POST or None)
+    siteSetting = site_setting.objects.first()
 
     if register_form.is_valid():
         username = register_form.cleaned_data.get('username')
@@ -46,7 +51,10 @@ def register_user(request):
                                  password=password,
                                  first_name=first_name,
                                  last_name=last_name)
-
+        send_email(siteSetting.site_title,
+                   f"Hi, {username} you have been signed up successfully in {siteSetting.site_title}",
+                   [email]
+                   )
         user = authenticate(request, password=password, username=username)
         login(request, user)
 
@@ -63,3 +71,31 @@ def register_user(request):
 def log_out(request):
     logout(request)
     return redirect('/')
+
+
+@login_required(login_url='/login')
+def user_panel(request):
+    return render(request, 'accounts/user_account_main.html')
+
+
+@login_required(login_url='/login')
+def edit_profile(request):
+    user_id = request.user.id
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        raise Http404('کاربر یافت نشد!')
+
+    editForm = edit_form(request.POST or None, initial={'first_name': user.first_name, 'last_name': user.last_name, })
+    if editForm.is_valid():
+        firstname = editForm.cleaned_data.get('first_name')
+        lastname = editForm.cleaned_data.get('last_name')
+        user.first_name = firstname
+        user.last_name = lastname
+        user.save()
+
+    context = {
+        'edit_form': editForm
+    }
+
+    return render(request, 'accounts/edit_account.html', context)
