@@ -95,7 +95,7 @@ def cart(request):
         'discount_form': discount_form,
         'discount': discount_apply,
     }
-    if cart:
+    if user_cart:
         context['details'] = user_cart.order_detail_set.all()
     return render(request, 'orders/cart.html', context)
 
