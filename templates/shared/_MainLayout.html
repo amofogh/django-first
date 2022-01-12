@@ -1,15 +1,14 @@
 {% load static %}
 {% load render_partial %}
-<header>
+<head>
     <title>{% block title %}{% endblock %}</title>
+    {% include 'shared/_headerReferences.html' %}
 
-</header>
+</head>
 
 <!DOCTYPE html>
 <html lang="en">
 
-{#{% render_partial 'headerReferences' title='صفحه اصلی | فروشگاه کارزیبا' %}#}
-{% include 'shared/_headerReferences.html' %}
 <body>
 
 {% render_partial 'header' %}
