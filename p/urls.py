@@ -31,6 +31,7 @@ urlpatterns = [
     path('', include('Eshop_orders.urls', namespace='orders')),
     path('', include('Eshop_comments.urls', namespace='comments')),
     path('', include('Eshop_news.urls', namespace='blog')),
+    path('api/', include('api.urls', namespace='api')),
     path('categories_partial', categories_partial, name='categories_partial'),
     path('header/<title>', header_references, name='headerReferences'),
     path('header', header, name='header'),

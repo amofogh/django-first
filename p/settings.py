@@ -37,7 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_render_partial',
     'django_social_share',
-
+    'rest_framework',
+    'django_filters',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    
     # our apps
     'Eshop_accounts',
     'Eshop_products',
@@ -49,6 +58,7 @@ INSTALLED_APPS = [
     'Eshop_orders',
     'Eshop_comments',
     'Eshop_news',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -146,9 +156,23 @@ MEDIA_ROOT = BASE_DIR / 'static_cdn' / 'media_root'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # gmail_send/settings.py
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'lastofgame81@gmail.com'
-EMAIL_HOST_PASSWORD = '63896391'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'api.permissions.IsAdminOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    )
+}
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'eshop-access'
+JWT_AUTH_REFRESH_COOKIE = 'refresh'
+SITE_ID = 1
