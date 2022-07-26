@@ -1,0 +1,38 @@
+<header>
+    <title>{{ page_type }}</title>
+
+    <!-- Core build with no theme, formatting, non-essential modules -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+    <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
+
+    <!-- Main Quill library -->
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
+</header>
+<div id="editor" dir="rtl">
+
+</div>
+
+<script>
+    var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}, {'align': []}, {'direction': 'rtl'}, {'header': 1}, {'header': 2}, 'blockquote',],
+        {#[ 'code-block'],#}
+        [{'size': ['small', false, 'large', 'huge']}, {'header': [1, 2, 3, 4, 5, 6, false]},],  // {'font': []} custom dropdown
+        [{'color': []}, {'background': []}, 'clean'],          // dropdown with defaults from theme
+    ];
+    var quill = new Quill('#editor', {
+        theme: 'snow',
+        placeholder: 'ثبت اعلان...',
+        modules: {
+            toolbar: toolbarOptions
+        },
+    });
+    quill.format('align', 'right');
+
+</script>
